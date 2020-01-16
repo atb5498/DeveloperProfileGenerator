@@ -2,18 +2,25 @@ const inquirer = require("inquirer");
 // const fs = require("fs");
 // const axios = require("axios");
 
-inquirer.prompt({
-    type: "input",
-    message: "What is your favorite color?",
-    name: "color",
-})
-    // .then(function ({ username }) {
-    //     const queryUrl = `https://api.github.com/users/${username}/repos?per_page=100`;
+inquirer.prompt([
+    {
+        type: "input",
+        message: "What is your GitHub username?",
+        name: "username"
+    },
+    {
+        type: "input",
+        message: "What is your favorite color?",
+        name: "color"
+    }
+])
+// .then(function ({ username }) {
+//         const gitUrl = `https://api.github.com/users/${username}/repos?per_page=100`;
 
-    //     axios.get(queryUrl).then(function (res) {
-    //         const repoNames = res.data.map(function (repo) {
-    //             return repo.name;
-    //         });
+//         axios.get(gitUrl).then(function (res) {
+//             const profileDetails = res.data.map(function (profile) {
+//                 return profile.name;
+//             });
 
     //         const repoNamesStr = repoNames.join("\n");
 
