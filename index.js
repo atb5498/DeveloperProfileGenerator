@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
+const axios = require("axios");
 // const fs = require("fs");
-// const axios = require("axios");
 
 inquirer.prompt([
     {
@@ -13,23 +13,23 @@ inquirer.prompt([
         message: "What is your favorite color?",
         name: "color"
     }
-])
-// .then(function ({ username }) {
-//         const gitUrl = `https://api.github.com/users/${username}/repos?per_page=100`;
+]).then(function ({ username }) {
+    const gitUrl = `https://api.github.com/users/${username}/repos?per_page=100`;
 
-//         axios.get(gitUrl).then(function (res) {
-//             const profileDetails = res.data.map(function (profile) {
-//                 return profile.name;
-//             });
+    axios.get(gitUrl).then(function (res) {
+        console.log(res.data);
+        // const profileDetails = res.data.map(function (profile) {
+        //     return profile.name;
+        // });
 
-    //         const repoNamesStr = repoNames.join("\n");
+        //         const repoNamesStr = repoNames.join("\n");
 
-    //         fs.writeFile("repos.txt", repoNamesStr, function (err) {
-    //             if (err) {
-    //                 throw err;
-    //             }
+        //         fs.writeFile("repos.txt", repoNamesStr, function (err) {
+        //             if (err) {
+        //                 throw err;
+        //             }
 
-    //             console.log(`Saved ${repoNames.length} repos`);
-    //         });
-    //     });
-    // });
+        //             console.log(`Saved ${repoNames.length} repos`);
+        //         });
+    });
+});
