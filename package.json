@@ -1,0 +1,23 @@
+{
+  "name": "DeveloperProfileGenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atb5498/DeveloperProfileGenerator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atb5498/DeveloperProfileGenerator/issues"
+  },
+  "homepage": "https://github.com/atb5498/DeveloperProfileGenerator#readme",
+  "dependencies": {
+    "inquirer": "^7.0.3"
+  }
+}
