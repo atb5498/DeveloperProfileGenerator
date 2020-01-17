@@ -16,12 +16,37 @@ function promptUser() {
             type: "list",
             name: "color",
             message: "What is your favorite color?",
-            choices: ["gray", "blue", "green", "red", "yellow", "cyan"]
+            choices: ["blue", "green", "red", "yellow", "cyan"]
         }
     ])
 }
 
-function generateHTML(data) {
+
+
+function generateHTML(data, answers) {
+    const colors = {
+        blue: {
+            jumbotron: "#B9DBFF",
+            buttonsCards: "primary"
+        },
+        green: {
+            jumbotron: "#C4E7CC",
+            buttonsCards: "success"
+        },
+        red: {
+            jumbotron: "#F5C7CC",
+            buttonsCards: "danger"
+        },
+        yellow: {
+            jumbotron: "#FFEEBB",
+            buttonsCards: "warning"
+        },
+        cyan: {
+            jumbotron: "#BFE5EB",
+            buttonsCards: "info"
+        },
+    }
+
     return `
     <!DOCTYPE html>
 <html lang="en">
@@ -43,30 +68,30 @@ function generateHTML(data) {
         crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="jumbotron jumbotron-fluid" style="background-color: ;">
+    <div class="jumbotron jumbotron-fluid" style="background-color: ${colors[answers.color].jumbotron};">
         <div class="text-center">
             <img src="${data.avatar}" class="rounded" alt="profile picture" style="max-height: 200px; border: solid 10px white;">
         </div>
         <div class="container text-center">
             <h1 class="display-4">${data.name}</h1>
             <p class="lead">${data.location}</p>
-            <a class="btn btn-secondary" href=${data.htmlUrl} target="_blank" role="button">GitHub</a>
-            <a class="btn btn-secondary" href=${data.blog} target="_blank" role="button">Blog</a>
+            <a class="btn btn-${colors[answers.color].buttonsCards}" href="${data.profileUrl}" target="_blank" role="button">GitHub</a>
+            <a class="btn btn-${colors[answers.color].buttonsCards}" href="${data.blog}" target="_blank" role="button">Blog</a>
         </div>
     </div>
     <h2 class="text-center" style="margin-bottom: 50px;"></h2>
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <div class="card text-white bg-secondary mb-3 mx-auto" style="max-width: 18rem;">
+                <div class="card text-white bg-${colors[answers.color].buttonsCards} mb-3 mx-auto" style="max-width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Stars</h5>
-                        <p class="card-text">${data.starsCount}</p>
+                        <p class="card-text">${data.stars}</p>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="card text-white bg-secondary mb-3 mx-auto" style="max-width: 18rem;">
+                <div class="card text-white bg-${colors[answers.color].buttonsCards} mb-3 mx-auto" style="max-width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Repositories</h5>
                         <p class="card-text">${data.repos}</p>
@@ -78,7 +103,7 @@ function generateHTML(data) {
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <div class="card text-white bg-secondary mb-3 mx-auto" style="max-width: 18rem;">
+                <div class="card text-white bg-${colors[answers.color].buttonsCards} mb-3 mx-auto" style="max-width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Followers</h5>
                         <p class="card-text">${data.followers}</p>
@@ -86,7 +111,7 @@ function generateHTML(data) {
                 </div>
             </div>
             <div class="col">
-                <div class="card text-white bg-secondary mb-3 mx-auto" style="max-width: 18rem;">
+                <div class="card text-white bg-${colors[answers.color].buttonsCards} mb-3 mx-auto" style="max-width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Following</h5>
                         <p class="card-text">${data.following}</p>
@@ -103,12 +128,11 @@ async function main() {
     const answers = await promptUser();
 
     const response = await axios.get(`https://api.github.com/users/${answers.username}`);
-    console.log(response.data)
 
     const avatar = response.data.avatar_url;
     const name = response.data.name;
     const location = response.data.location;
-    const htmlUrl = response.data.html_url;
+    const profileUrl = response.data.html_url;
     const blog = response.data.blog;
     const bio = response.data.bio;
     const repos = response.data.public_repos;
@@ -117,12 +141,11 @@ async function main() {
 
     const response2 = await axios.get(`https://api.github.com/users/${answers.username}/starred`);
 
-    const starsCount = response2.data.length;
+    const stars = response2.data.length;
 
-    const data = { avatar, name, location, htmlUrl, blog, bio, repos, followers, following, starsCount };
+    const data = { avatar, name, location, profileUrl, blog, bio, repos, followers, following, stars };
 
-    const html = generateHTML(data);
-    console.log("data", data)
+    const html = generateHTML(data, answers);
     return writeFileAsync("index.html", html);
 }
 
