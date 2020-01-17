@@ -15,7 +15,7 @@ return inquirer.prompt([
         type: "list",
         name: "color",
         message: "What is your favorite color?",
-        choices: ["blue", "gray", "green", "red", "yellow", "teal"]
+        choices: ["gray", "blue", "green", "red", "yellow", "cyan"]
     }
 ]).then(function ({ username }) {
 
