@@ -2,10 +2,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
 const axios = require("axios");
-
 const pdf = require("html-pdf");
-
-
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -127,8 +124,10 @@ function generateHTML(data, answers) {
 }
 
 async function main() {
+    // Prompts user and waits for answers
     const answers = await promptUser();
 
+    // Requests data from github based on username provided in prompt
     const response = await axios.get(`https://api.github.com/users/${answers.username}`);
 
     const avatar = response.data.avatar_url;
@@ -141,24 +140,24 @@ async function main() {
     const followers = response.data.followers;
     const following = response.data.following;
 
+    // Requests number of starred repositories from github based on username provided in prompt
     const response2 = await axios.get(`https://api.github.com/users/${answers.username}/starred`);
 
     const stars = response2.data.length;
 
     const data = { avatar, name, location, profileUrl, blog, bio, repos, followers, following, stars };
 
+    // Generates html file based on the data recieved from github and answers given in prompt
     const html = generateHTML(data, answers);
     await writeFileAsync("index.html", html);
 
+    // Converts generated html file to a pdf file
     const options = { format: "Letter", height: "14in", width: "14in" };
     const htmlPdf = fs.readFileSync('index.html', 'utf8');
-
     pdf.create(htmlPdf, options).toFile('index.pdf', function (err, res) {
         if (err) return console.log(err);
         console.log(res);
     });
-
-
 }
 
 main();
