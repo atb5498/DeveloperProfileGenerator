@@ -3,6 +3,10 @@ const fs = require("fs");
 const util = require("util");
 const axios = require("axios");
 
+const pdf = require("html-pdf");
+
+
+
 const writeFileAsync = util.promisify(fs.writeFile);
 
 function promptUser() {
@@ -20,8 +24,6 @@ function promptUser() {
         }
     ])
 }
-
-
 
 function generateHTML(data, answers) {
     const colors = {
@@ -146,7 +148,17 @@ async function main() {
     const data = { avatar, name, location, profileUrl, blog, bio, repos, followers, following, stars };
 
     const html = generateHTML(data, answers);
-    return writeFileAsync("index.html", html);
+    await writeFileAsync("index.html", html);
+
+    const options = { format: "Letter", height: "14in", width: "14in" };
+    const htmlPdf = fs.readFileSync('index.html', 'utf8');
+
+    pdf.create(htmlPdf, options).toFile('index.pdf', function (err, res) {
+        if (err) return console.log(err);
+        console.log(res);
+    });
+
+
 }
 
 main();
