@@ -14,9 +14,6 @@ SO THAT I can easily share it with potential employers
 3. Answer the second prompt by selecting a color
 4. An index.html and a pdf version of that file are created based on the provided username and color selection
 
-# Link
-https://github.com/atb5498/DeveloperProfileGenerator
-
 ![alt text](screen.png "Logo Title Text 1")
 
 # Built With
