@@ -1,5 +1,5 @@
 # DeveloperProfileGenerator
-This application is intended to allow users to to create a pdf file that displays content based on the GitHub username they provide.
+This command line application is intended to allow users to to create a pdf file that displays content based on the GitHub username they provide.
 
 # User story
 AS A GitHub user
